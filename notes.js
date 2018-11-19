@@ -1,4 +1,5 @@
 const fs = require('fs');
+const _ = require('lodash');
 
 const fetchNotes = () => {
     try {
@@ -10,6 +11,19 @@ const fetchNotes = () => {
     }
 };
 
+const findMatchsNote = (notes, title) => {
+    var matches = notes.filter((note) => {
+        return note.title === title;
+    });
+    return matches;
+};
+
+const writeDataNote = (notes) => {
+    fs.writeFileSync('notes-data.json', JSON.stringify(notes));
+};
+
+
+
 const addNote = (title, body) => {
 
     var notes = fetchNotes();
@@ -19,14 +33,14 @@ const addNote = (title, body) => {
         body
     };
 
-    var duplicateNotes = notes.filter((note) => {
-        return note.title === title;
-    });
+    var duplicateNotes = findMatchsNote(notes, title);
 
     if (title) {
-        if (duplicateNotes.length === 0) {
+        if (duplicateNotes.length === 0 || duplicateNotes === undefined) {
             notes.push(note);
-            fs.writeFileSync('notes-data.json', JSON.stringify(notes));
+           
+            writeDataNote(notes);
+
             console.log("Note keeped!");
             console.log("---");
             console.log(`Title: ${note.title}`);
@@ -41,7 +55,6 @@ const addNote = (title, body) => {
     }
 };
 
-
 const getAll = () => {
     console.log('Listing all notes');
 };
@@ -51,7 +64,14 @@ const getNote = (title) => {
 };
 
 const removeNote = (title) => {
-    console.log('Removing note', title);
+
+    var notes = fetchNotes();
+    var noteToBeRemoved = findMatchsNote(notes, title)[0];
+    _.pull(notes, noteToBeRemoved); //lodash remove function
+
+    console.log("note removed!");
+
+    writeDataNote(notes);
 };
 
 module.exports = {
