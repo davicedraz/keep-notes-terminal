@@ -54,6 +54,7 @@ const addNote = (title, body) => {
 const getAll = () => {
     var notes = fetchNotes();
     if(notes.length > 0){
+        console.log(`Printing ${notes.length} notes.`);
         notes.map((note) => {
             console.log(`Title: ${note.title}`);
             console.log("---");
