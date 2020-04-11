@@ -3,12 +3,15 @@
 - Keep it even when the graphical interface is not an available option.
 
 Run:
-> npm install
-
+```bash
+$ npm install
+```
 
 Usage example:
 
-> node app.js add --title="some title" --body="some text to note"
+```bash
+$ node app.js add --title="some title" --body="some text to note"
+```
 
 Commands:
 
